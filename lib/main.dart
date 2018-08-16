@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import './views/news_cell.dart';
 
 void main() => runApp(new NewsApp());
 
 class NewsApp extends StatefulWidget {
-  // This widget is the root of your application.
+  // App root widget
   @override
     State<StatefulWidget> createState() {
       return new NewsAppState();
@@ -58,26 +59,7 @@ class NewsAppState extends State<NewsApp> {
                 itemCount: this.articles != null ? this.articles.length : 0,
                 itemBuilder: (context, i) {
                   final article = this.articles[i];
-
-                  return new Column(
-                    children: <Widget>[
-                      new Container(
-                        padding: new EdgeInsets.all(10.0),
-                        child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new Image.network(article['urlToImage']),
-                            new Container(height: 8.0),
-                            new Text(article['title'], 
-                              style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-                            new Text(article['description'])
-                          ]
-                        )
-                      ),
-                      
-                      new Divider()
-                    ],
-                  );
+                  return new NewsCell(article);
                 },
               )
           )
@@ -85,6 +67,3 @@ class NewsAppState extends State<NewsApp> {
       );
     }
 }
-
-
-
