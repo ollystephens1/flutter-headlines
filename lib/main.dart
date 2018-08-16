@@ -26,9 +26,7 @@ class NewsAppState extends State<NewsApp> {
 
       setState(() {
         _isLoading = false;
-        
         this.articles = data['articles'];
-        print(data['articles']);      
       });
     }
   }
@@ -43,7 +41,6 @@ class NewsAppState extends State<NewsApp> {
               new IconButton(
                 icon: new Icon(Icons.refresh), 
                 onPressed: () {
-                  print('Reloading');
                   setState(() {
                     _isLoading = true;
                   });
