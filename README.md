@@ -1,8 +1,9 @@
-# flutter_headlines
+# Flutter news headlines
 
-A new Flutter project.
+A news mobile app developed with Flutter. 
 
-## Getting Started
+### Quick start
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+*Ensure Flutter is installed and set in your path*
+
+`flutter run`
