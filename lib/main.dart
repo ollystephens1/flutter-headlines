@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import './views/news_cell.dart';
+import './models/choice.model.dart';
 
 void main() => runApp(new NewsApp());
 
@@ -14,24 +15,27 @@ class NewsApp extends StatefulWidget {
 }
 
 class NewsAppState extends State<NewsApp> {
-  var _isLoading = false;
-  var articles;
+  bool _isLoading = false;
+  dynamic articles;
+  String _title = 'News headlines';
 
   _fetchData([String source]) async {
-    var newsSource = 'bbc-news';
+    String newsSource = 'bbc-news';
 
     if (source != null) {
       newsSource = source;
     }
 
-    final url = 'https://newsapi.org/v1/articles?apiKey=9d10c7a2f58c474c9600538413e84222&source=' + newsSource;
-    final response = await http.get(url);
+    final int selectedSource = choices.indexWhere((choice) => choice.slug == newsSource);
+    final String url = 'https://newsapi.org/v1/articles?apiKey=9d10c7a2f58c474c9600538413e84222&source=' + newsSource;
+    final http.Response response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+      final dynamic data = json.decode(response.body);
 
       setState(() {
         _isLoading = false;
+        _title = choices[selectedSource].title;
         this.articles = data['articles'];
       });
     }
@@ -46,7 +50,7 @@ class NewsAppState extends State<NewsApp> {
       return new MaterialApp(
         home: new Scaffold(
           appBar: new AppBar(
-            title: new Text('News Headlines'),
+            title: new Text(_title),
             actions: <Widget>[
               new IconButton(
                 icon: new Icon(Icons.refresh),
@@ -84,13 +88,6 @@ class NewsAppState extends State<NewsApp> {
         ),
       );
     }
-}
-
-class Choice {
-  const Choice({this.title, this.slug});
-
-  final String title;
-  final String slug;
 }
 
 const List<Choice> choices = const <Choice>[
